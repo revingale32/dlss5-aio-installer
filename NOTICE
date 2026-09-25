@@ -1,0 +1,30 @@
+DLSS 5 AIO Installer
+Copyright 2026 Revin (revingale32)
+Official download: https://github.com/revingale32/dlss5-aio-installer
+
+Created and maintained by Revin (github.com/revingale32), with Claude. Licensed under the Apache
+License 2.0 (see LICENSE). Anyone who shares this software, changed or not, must keep this NOTICE
+file and the copyright notices, and must mark any file they changed (Apache-2.0, section 4). The
+licence gives no permission to use the names above to promote another version (section 6).
+A copy that did not come from the official download above did not come from Revin.
+
+Not affiliated with, endorsed by or sponsored by NVIDIA. NVIDIA and DLSS are trademarks of NVIDIA
+Corporation. No NVIDIA runtime is included: the app uses the one already on the user's PC.
+
+--------------------------------------------------------------------------------------------
+The neural rendering add-on (payload/standalone-dlssnr.addon64) is built from:
+
+DLSS5 ReShade AIO
+Copyright 2026 kibblerz
+
+This product includes software developed for the DLSS5 ReShade AIO project:
+https://github.com/kibblerz/DLSS5-Reshade-AIO
+
+Modified build 2.2.4-revin4 (September 2026) by Revin, with Claude. Modified file: addon/src/nr-standalone.cpp.
+See CHANGES-revin2-2026-09-12.md and nr-standalone-all-changes.patch.
+
+Media worker (payload/media/dlss5-media.exe, source in media-worker/), 2026-09-25: written for this
+app by Revin, with Claude; Apache 2.0. It includes nvof-motion-provider.cpp/.hpp from
+kibblerz/DLSS5-Reshade-AIO (Apache 2.0) and NVIDIA Optical Flow SDK headers
+(Copyright (c) 2018-2023 NVIDIA Corporation, MIT licence). It loads NVIDIA's nvngx_dlssnr.dll from
+the user's own PC; no NVIDIA runtime is included.

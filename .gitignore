@@ -1,0 +1,35 @@
+# DLSS 5 AIO Installer - what never goes into the repo.
+
+# Dependencies and build output (the Setup is published on the Releases page, not in git)
+node_modules/
+dist/
+dist-installer/
+dist-test/
+media-worker/build/
+test/visual/shots/
+
+# Local state from running the app from source: settings, per-game profiles, cover art cache
+settings.json
+covers/
+
+# NVIDIA's runtime DLLs are never shipped - runtimes/ is for your own copies on your own PC
+runtimes/*
+!runtimes/README.txt
+
+# NVIDIA's NGX headers are under NVIDIA's licence - fetch them from NVIDIA's DLSS SDK to build the worker
+media-worker/third_party/ngx/*
+
+# Maintenance scripts made for one PC - not part of the app
+scripts/fix-reshade-search-paths.py
+scripts/upgrade-optiscaler-route-from-vm.js
+
+# Real game artwork for the visual test harness - the publishers' pictures, not ours to publish
+test/visual/art.json
+
+# Backups and leftovers
+_bak*/
+*.bak-*
+*.log
+Thumbs.db
+desktop.ini
+.DS_Store

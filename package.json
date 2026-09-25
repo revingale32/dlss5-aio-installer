@@ -1,0 +1,94 @@
+{
+  "name": "dlss5-aio-installer",
+  "productName": "DLSS 5 AIO Installer",
+  "version": "0.4.0",
+  "description": "Installs the Standalone DLSS-NR + SR neural rendering build (2.2.4-revin4) into your games, and runs DLSS 5 neural rendering on your pictures, videos and desktop.",
+  "main": "main.js",
+  "author": {
+    "name": "Revin - revingale32",
+    "url": "https://github.com/revingale32"
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/revingale32/dlss5-aio-installer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/revingale32/dlss5-aio-installer.git"
+  },
+  "scripts": {
+    "start": "electron .",
+    "cli": "node cli/cli.js",
+    "test": "node --test test/*.test.js",
+    "shots": "node test/visual/shoot.js",
+    "sums": "node scripts/release-sums.js",
+    "build": "electron-builder --win --x64 --publish never"
+  },
+  "private": true,
+  "devDependencies": {
+    "@electron/packager": "^18.3.6",
+    "electron": "^32.0.0",
+    "playwright": "^1.47.0"
+  },
+  "build": {
+    "appId": "com.revin.dlss5aioinstaller",
+    "productName": "DLSS 5 AIO Installer",
+    "copyright": "Copyright (C) 2026 Revin (revingale32). Apache-2.0. Official download: github.com/revingale32/dlss5-aio-installer",
+    "directories": {
+      "output": "dist-installer",
+      "buildResources": "build-resources"
+    },
+    "files": [
+      "!**/*",
+      "main.js",
+      "preload.js",
+      "package.json",
+      "LICENSE",
+      "NOTICE",
+      "README.md",
+      "core/**/*",
+      "cli/**/*",
+      "ui/**/*",
+      "payload/**/*",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build-resources/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "DLSS 5 AIO Installer",
+      "deleteAppDataOnUninstall": false,
+      "artifactName": "DLSS-5-AIO-Installer-${version}-Setup.exe",
+      "installerIcon": "build-resources/icon.ico",
+      "uninstallerIcon": "build-resources/icon.ico",
+      "installerHeaderIcon": "build-resources/icon.ico",
+      "runAfterFinish": true,
+      "differentialPackage": false
+    },
+    "asarUnpack": [
+      "payload/**/*"
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "revingale32",
+        "repo": "dlss5-aio-installer",
+        "releaseType": "release"
+      }
+    ]
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.9"
+  }
+}

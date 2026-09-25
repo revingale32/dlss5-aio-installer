@@ -1,0 +1,587 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: Apache-2.0 · Copyright 2026 Revin (revingale32) - DLSS 5 AIO Installer, github.com/revingale32/dlss5-aio-installer -->
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: aio-media:; media-src aio-media:;">
+  <title>DLSS 5 AIO Installer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="shell">
+
+  <!-- ================================================================ sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark" aria-hidden="true">5</div>
+      <div class="wordmark">
+        <span class="wordmark-top">DLSS 5</span>
+        <span class="wordmark-sub">AIO Installer</span>
+      </div>
+    </div>
+
+    <nav class="nav" aria-label="Sections">
+      <button class="nav-item is-active" data-view="home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M10 20v-6h4v6"/></svg>
+        <span>Home</span><i class="dot"></i>
+      </button>
+      <button class="nav-item" data-view="library">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="11" rx="4"/><path d="M8 11v3M6.5 12.5h3"/><path d="M15.5 11.5h.01M17.5 13.5h.01"/></svg>
+        <span>Games</span><i class="dot"></i>
+      </button>
+      <button class="nav-item" data-view="media">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4.5 17l5-4.5 3.5 3 2.5-2 4 3.5"/></svg>
+        <span>Media</span><i class="dot"></i>
+      </button>
+      <button class="nav-item" data-view="runtimes">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg>
+        <span>Runtimes</span><i class="dot"></i>
+      </button>
+      <button class="nav-item" data-view="log">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h13"/><circle cx="18.5" cy="12" r="1.2"/></svg>
+        <span>Log</span><i class="dot"></i>
+      </button>
+      <button class="nav-item" data-view="settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/></svg>
+        <span>Settings</span><i class="dot"></i>
+      </button>
+      <button class="nav-item" data-view="about">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5"/><circle cx="12" cy="8" r=".6"/></svg>
+        <span>About</span><i class="dot"></i>
+      </button>
+    </nav>
+
+    <div class="status-card">
+      <div class="status-line"><i class="live" id="status-dot"></i><strong id="status-title">Ready</strong></div>
+      <div class="status-sub" id="status-sub">add-on build —</div>
+      <div class="status-sub" id="status-runtime">runtimes: checking…</div>
+      <div class="bar"><i id="status-bar"></i></div>
+    </div>
+  </aside>
+
+  <!-- ================================================================ main -->
+  <main class="main">
+    <div class="toolbar" id="toolbar">
+      <div class="crumb" id="crumb">Home</div>
+      <div class="toolbar-spacer"></div>
+      <button class="round" id="theme-toggle" title="Switch theme" aria-label="Switch theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10Z"/></svg>
+      </button>
+      <div class="win">
+        <button class="win-btn" id="win-min" title="Minimize" aria-label="Minimize"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6h8"/></svg></button>
+        <button class="win-btn" id="win-max" title="Maximize" aria-label="Maximize"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="2.5" y="2.5" width="7" height="7" rx="1"/></svg></button>
+        <button class="win-btn win-close" id="win-close" title="Close" aria-label="Close"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6"/></svg></button>
+      </div>
+    </div>
+
+    <!-- New versions from the official GitHub releases: the one-time question, then the offer. -->
+    <div class="update-bar" id="update-bar" role="status" hidden>
+      <span class="update-text" id="update-text"></span>
+      <div class="update-actions">
+        <button class="glass-btn sm" id="update-allow" hidden>Yes, look for updates</button>
+        <button class="ghost sm" id="update-deny" hidden>No thanks</button>
+        <button class="glass-btn sm" id="update-download" hidden>Update</button>
+        <button class="ghost sm" id="update-notes" data-link="releases" hidden>What's new</button>
+        <button class="glass-btn sm" id="update-restart" hidden>Restart to update</button>
+        <button class="ghost sm" id="update-later" hidden>Later</button>
+      </div>
+    </div>
+
+    <div class="views">
+      <!-- ------------------------------------------------ home -->
+      <section class="view is-active" id="view-home">
+        <div class="glass dropzone" id="dropzone">
+          <div class="dz-circle">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5A2 2 0 0 1 5.5 5.5h4l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2Z"/></svg>
+          </div>
+          <h2>Drop a game folder here</h2>
+          <p class="or">or</p>
+          <button class="glass-btn" id="home-browse">Browse folder</button>
+          <p class="dz-hint">Steam and Xbox Game Pass libraries are found on their own. Drop anything else.</p>
+        </div>
+
+        <div class="section-head">
+          <h3>Recently installed <span class="count" id="recent-count"></span></h3>
+          <button class="link" data-view="library">View all games <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+        <div class="grid recent-grid" id="recent-grid"></div>
+
+        <div class="section-head">
+          <h3>Activity</h3>
+          <div class="row">
+            <button class="ghost sm" id="activity-copy">Copy log</button>
+            <button class="ghost sm" id="activity-clear">Clear</button>
+          </div>
+        </div>
+        <div class="glass log" id="activity-log"></div>
+      </section>
+
+      <!-- ------------------------------------------------ games -->
+      <section class="view" id="view-library">
+        <div class="section-head games-heading" id="games-heading">
+          <h3>Games <span class="count" id="library-count"></span></h3>
+          <div class="row">
+            <button class="glass-btn sm" id="add-folder">Add a folder</button>
+            <button class="glass-btn sm" id="rescan">Rescan</button>
+          </div>
+        </div>
+
+        <div class="game-filters">
+          <label class="game-search"><span>Search</span><input type="search" id="filter" placeholder="Search by title…" autocomplete="off"></label>
+          <label><span>Rendering API</span>
+            <select id="filter-api">
+              <option value="">All APIs</option>
+              <option value="d3d12">DirectX 12</option>
+              <option value="d3d11">DirectX 11</option>
+              <option value="d3d9">DirectX 9</option>
+              <option value="vulkan">Vulkan</option>
+              <option value="opengl">OpenGL</option>
+              <option value="unknown">Not detected</option>
+            </select>
+          </label>
+          <label><span>Add-on</span>
+            <select id="filter-status">
+              <option value="">Any state</option>
+              <option value="installed">Installed</option>
+              <option value="not">Not installed</option>
+              <option value="anticheat">Anti-cheat present</option>
+              <option value="32">32-bit</option>
+            </select>
+          </label>
+          <button class="ghost" id="filter-clear">Clear filters</button>
+        </div>
+
+        <div class="scope" id="scope" role="group" aria-label="Store">
+          <button class="scope-btn is-on" data-store="">All</button>
+          <button class="scope-btn scope-steam" data-store="Steam">Steam</button>
+          <button class="scope-btn scope-xbox" data-store="Xbox">Xbox</button>
+          <button class="scope-btn scope-manual" data-store="Manual">Added</button>
+        </div>
+        <div class="game-quick-filters" id="quick-filters"></div>
+
+        <div id="library" aria-live="polite">
+          <p class="muted">Scanning…</p>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------ media -->
+      <section class="view" id="view-media">
+        <div class="media-head">
+          <div>
+            <h2 class="media-title">Pictures, videos &amp; desktop</h2>
+            <p class="lede">The same DLSS 5 neural rendering your games get, on anything: pictures and videos go through NVIDIA's
+              runtime and come out as new files beside the originals, and desktop mode runs it live over a whole monitor.</p>
+          </div>
+          <div class="seg" id="media-tabs" role="tablist" aria-label="Media mode">
+            <button data-tab="files" class="is-on" role="tab">Pictures &amp; videos</button>
+            <button data-tab="desktop" role="tab">Desktop</button>
+          </div>
+        </div>
+        <div id="media-readiness" class="banner note" hidden></div>
+
+        <div class="media-grid">
+          <div class="media-main">
+            <div id="media-files-pane">
+              <div class="glass dropzone media-drop" id="media-drop">
+                <div class="dz-circle">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4.5 17l5-4.5 3.5 3 2.5-2 4 3.5"/></svg>
+                </div>
+                <h2>Drop pictures or videos here</h2>
+                <p class="or">or</p>
+                <button class="glass-btn" id="media-add">Add files</button>
+                <p class="dz-hint">PNG, JPEG, BMP, TIFF, GIF, WebP and more · MP4, MOV, MKV, AVI, WMV. Results are new files named
+                  <code>name_dlss5</code> - an original is never touched.</p>
+              </div>
+
+              <div class="section-head">
+                <h3>Queue <span class="count" id="media-count"></span></h3>
+                <div class="row">
+                  <button class="ghost sm" id="media-clear">Clear finished</button>
+                  <button class="ghost sm danger" id="media-cancel" hidden>Cancel</button>
+                  <button class="glass-btn sm" id="media-start">Start</button>
+                </div>
+              </div>
+              <div class="glass media-queue" id="media-queue"></div>
+              <p class="hint" id="media-job-status"></p>
+            </div>
+
+            <div id="media-desktop-pane" hidden>
+              <div class="glass pad desktop-card">
+                <div class="section-head tight"><h3>Live desktop</h3><span class="pill" id="desktop-state">off</span></div>
+                <p class="lede">Copies one monitor, runs every new frame through neural rendering and shows the result in a
+                  click-through layer on top of it - everything underneath still works as normal. It adds a frame or two of delay,
+                  so it is for looking at things (videos, photos, the web, slower games), not for competitive play.</p>
+                <div class="set-row">
+                  <div><div class="k">Monitor</div><div class="v">The monitor to cover. Only monitors on the NVIDIA card can be used.</div></div>
+                  <select id="desktop-monitor" class="field-select"><option value="-1">Primary monitor</option></select>
+                </div>
+                <div class="set-row">
+                  <div><div class="k">Frame cap</div><div class="v">How often the desktop is re-rendered at most. Lower leaves more of the GPU for everything else.</div></div>
+                  <select id="desktop-fps" class="field-select">
+                    <option value="30">30 fps</option>
+                    <option value="60" selected>60 fps</option>
+                    <option value="120">120 fps</option>
+                    <option value="0">Uncapped</option>
+                  </select>
+                </div>
+                <div class="set-row">
+                  <div><div class="k">Before / after split</div><div class="v">Left half of the screen stays as it is, right half shows DLSS 5 -
+                    the quickest way to see what it changes. <strong>Ctrl+Alt+S</strong> switches it while running.</div></div>
+                  <button class="switch" id="desktop-split" role="switch" aria-checked="false"><i class="knob"></i></button>
+                </div>
+                <div class="row desktop-actions">
+                  <button class="btn-install" id="desktop-start">Start desktop mode</button>
+                  <button class="btn-restore" id="desktop-stop" hidden>Stop</button>
+                </div>
+                <div class="specs" id="desktop-stats"></div>
+                <p class="hint"><strong>Ctrl+Alt+N</strong> hides and shows the effect, <strong>Ctrl+Alt+S</strong> splits before/after,
+                  <strong>Ctrl+Alt+End</strong> stops it. The look on the right and the frame cap change live while it runs (the
+                  monitor needs a restart). The default look is deliberately light - easy to miss without the split;
+                  <em>Cinematic</em> with 2-3 passes is the strongest. <em>Anti-shimmer</em> (under Video) works here too: it
+                  steadies moving pictures but adds about 8 ms of delay - off gives the snappiest desktop.</p>
+              </div>
+            </div>
+          </div>
+
+          <aside class="glass pad media-settings" aria-label="Neural rendering settings">
+            <div class="section-head tight"><h3>Look</h3><button class="ghost sm" id="media-reset">Defaults</button></div>
+            <label class="field"><span>Style</span>
+              <select id="ms-style">
+                <option value="0">Default - lightest</option>
+                <option value="1">Natural</option>
+                <option value="2">Cinematic - strongest</option>
+              </select>
+            </label>
+            <label class="slider"><span>Strength <b id="ms-mix-v"></b></span><input type="range" id="ms-mix" min="0" max="100" step="5"></label>
+            <label class="slider"><span>Intensity <b id="ms-intensity-v"></b></span><input type="range" id="ms-intensity" min="0" max="100" step="5"></label>
+            <label class="slider"><span>Local tone <b id="ms-tone-v"></b></span><input type="range" id="ms-tone" min="0" max="200" step="10"></label>
+            <label class="slider"><span>Local structure <b id="ms-structure-v"></b></span><input type="range" id="ms-structure" min="0" max="200" step="10"></label>
+            <label class="field"><span>Skin detail</span>
+              <select id="ms-skin">
+                <option value="-1">Follow local structure</option>
+                <option value="0">None</option>
+                <option value="0.25">Light</option>
+                <option value="0.5">Medium</option>
+                <option value="0.75">Strong</option>
+                <option value="0.99">Full</option>
+              </select>
+            </label>
+            <div class="set-row compact">
+              <div><div class="k">Skin mask</div><div class="v">NVIDIA's automatic skin mask. Skin detail only works with it on.</div></div>
+              <button class="switch" id="ms-automask" role="switch" aria-checked="true"><i class="knob"></i></button>
+            </div>
+            <label class="field"><span>Neural passes</span>
+              <select id="ms-passes">
+                <option value="1">1 - lightest</option>
+                <option value="2">2</option>
+                <option value="3">3 - heaviest</option>
+              </select>
+            </label>
+            <label class="field"><span>Working size</span>
+              <select id="ms-work">
+                <option value="0">Full resolution</option>
+                <option value="8.3">Up to 4K (8.3 MP)</option>
+                <option value="3.7">Up to 1440p (3.7 MP)</option>
+                <option value="2.1">Up to 1080p (2.1 MP)</option>
+              </select>
+            </label>
+            <p class="hint">Bigger pictures are rendered at this size and the change is scaled back up onto the full picture.</p>
+
+            <div class="section-head tight"><h3>Video</h3></div>
+            <label class="slider"><span>Anti-shimmer <b id="ms-stabilize-v"></b></span><input type="range" id="ms-stabilize" min="0" max="100" step="5"></label>
+            <div class="set-row compact">
+              <div><div class="k">Give motion to NR</div><div class="v">Also hands the optical flow to NR itself. Can change moving edges; off by default.</div></div>
+              <button class="switch" id="ms-motion" role="switch" aria-checked="false"><i class="knob"></i></button>
+            </div>
+            <div class="sheet-grid two">
+              <label class="field"><span>Codec</span>
+                <select id="ms-codec"><option value="h264">H.264</option><option value="hevc">HEVC</option></select>
+              </label>
+              <label class="field"><span>Quality</span>
+                <select id="ms-quality"><option value="standard">Standard</option><option value="high">High</option><option value="max">Maximum</option></select>
+              </label>
+            </div>
+            <label class="field"><span>Audio</span>
+              <select id="ms-audio"><option value="copy">Keep the original track</option><option value="aac">Re-encode to AAC</option><option value="none">No audio</option></select>
+            </label>
+
+            <div class="section-head tight"><h3>Output</h3></div>
+            <label class="field"><span>Picture format</span>
+              <select id="ms-format"><option value="png">PNG - lossless</option><option value="jpg">JPEG</option><option value="keep">Same as the original</option></select>
+            </label>
+            <div class="set-row compact">
+              <div><div class="k">Folder</div><div class="v" id="ms-outdir">Next to each original</div></div>
+              <div class="row">
+                <button class="ghost sm" id="ms-outdir-reset" hidden>Reset</button>
+                <button class="ghost sm" id="ms-outdir-pick">Choose</button>
+              </div>
+            </div>
+            <div class="row media-tools">
+              <button class="ghost sm" id="media-probe">Test the runtime</button>
+              <button class="ghost sm" id="media-log">Open media log</button>
+            </div>
+            <p class="hint" id="media-probe-result"></p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------ runtimes -->
+      <section class="view" id="view-runtimes">
+        <div class="glass pad">
+          <div class="section-head tight">
+            <h3>NVIDIA runtimes</h3>
+            <button class="glass-btn sm" id="browse-runtimes">Point at a folder</button>
+          </div>
+          <p class="lede">
+            These are NVIDIA's files and are not shipped with this installer. It finds them on this PC
+            instead - in the <code>runtimes</code> folder beside the app, in
+            <code>%LOCALAPPDATA%\RHI\Custom\Addons</code>, or in a game that already has them.
+          </p>
+          <div id="runtime-state" class="banner note"></div>
+          <div id="runtime-validated" class="banner note" hidden></div>
+          <div class="section-head tight"><h3>This PC</h3></div>
+          <div class="specs" id="machine-specs"></div>
+          <div id="machine-banner" class="banner warn" hidden></div>
+          <div class="section-head tight"><h3>Runtime files</h3></div>
+          <div class="specs" id="runtime-files"></div>
+          <div class="section-head tight"><h3>Extra folders</h3></div>
+          <div class="specs" id="runtime-extra"></div>
+          <div class="section-head tight"><h3>Looked in</h3></div>
+          <ul class="plain" id="runtime-searched"></ul>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------ log -->
+      <section class="view" id="view-log">
+        <div class="glass pad">
+          <div class="section-head tight">
+            <h3>Add-on log</h3>
+            <button class="glass-btn sm" id="reload-log">Reload</button>
+          </div>
+          <p class="lede" id="log-path"></p>
+          <div id="log-body"></div>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------ settings -->
+      <section class="view" id="view-settings">
+        <div class="glass pad">
+          <div class="section-head tight"><h3>Settings</h3></div>
+
+          <div class="set-row">
+            <div><div class="k">Theme</div><div class="v">Dark suits a library of covers; light matches the rest of Windows.</div></div>
+            <div class="seg" id="theme-seg">
+              <button data-theme="dark">Dark</button>
+              <button data-theme="light">Light</button>
+            </div>
+          </div>
+
+          <div class="set-row">
+            <div><div class="k">Fetch missing artwork from Steam</div>
+              <div class="v">Steam publishes library art for every game on an open CDN. Xbox and hand-added titles are looked up by name.
+                Pictures are kept in the <code>covers</code> folder, so this happens once and works offline afterwards. No account, no key.</div></div>
+            <button class="switch" id="artwork-switch" role="switch" aria-checked="true"><i class="knob"></i></button>
+          </div>
+
+          <div class="set-row">
+            <div><div class="k">Look for new versions when the app starts</div>
+              <div class="v">Asks the official GitHub page (github.com/revingale32/dlss5-aio-installer) for the newest version number and
+                offers the update when there is one - nothing installs until you press Update and Restart. Nothing else is sent.</div></div>
+            <button class="switch" id="update-switch" role="switch" aria-checked="false"><i class="knob"></i></button>
+          </div>
+
+          <div class="set-row">
+            <div><div class="k">Allow an unvalidated neural runtime</div>
+              <div class="v">Off, installs are refused when <code>nvngx_dlssnr.dll</code> is not the exact 310.8.0.0 file this build was
+                validated with (its SHA-256 is checked). A modified or truncated copy makes NVIDIA's runtime refuse silently
+                and there are tampered copies going around. Turn this on only if you know exactly where your file came from.</div></div>
+            <button class="switch" id="unknown-runtime-switch" role="switch" aria-checked="false"><i class="knob"></i></button>
+          </div>
+
+          <div class="set-row">
+            <div><div class="k">Covers folder</div><div class="v">Drop your own <code>cover.jpg</code> or <code>hero.jpg</code> next to a game, or a file named after it in here, and it wins over anything fetched.</div></div>
+            <button class="ghost sm" id="open-covers">Open</button>
+          </div>
+
+          <div class="set-row">
+            <div><div class="k">Runtime folders</div><div class="v">Extra places to look for NVIDIA's DLLs, on top of the ones searched automatically.</div></div>
+            <button class="ghost sm" id="settings-add-runtime">Add</button>
+          </div>
+          <div class="specs indent" id="settings-runtime-dirs"></div>
+
+          <div class="set-row">
+            <div><div class="k">App folder</div><div class="v" id="settings-app-root"></div></div>
+            <button class="ghost sm" id="open-app">Open</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------ about -->
+      <section class="view" id="view-about">
+        <div class="glass pad about">
+          <div class="about-head">
+            <div class="mark big" aria-hidden="true">5</div>
+            <div>
+              <h3>DLSS 5 AIO Installer</h3>
+              <p class="dim" id="about-version">version —</p>
+              <p class="dim about-by">Made by Revin (revingale32)</p>
+            </div>
+          </div>
+          <p>Installs one renderer: the <strong>Standalone DLSS-NR + SR</strong> neural rendering add-on for ReShade,
+            build <strong id="about-build">—</strong>, into the games on this PC. Every file it touches is backed up first
+            and verified by checksum; <em>Restore originals</em> puts a folder back exactly as it was found.</p>
+
+          <div class="section-head tight"><h3>What ships in the box</h3></div>
+          <div class="specs">
+            <div class="spec"><span class="k">DLSS 5 neural rendering add-on</span><span class="v">Apache 2.0 - built from kibblerz's DLSS5-Reshade-AIO with our changes</span></div>
+            <div class="spec"><span class="k">Neural relay (32-bit games)</span><span class="v">Written for this kit - <code>neural-relay.exe</code> and its launcher add-on, source in <code>payload\relay\src</code></span></div>
+            <div class="spec"><span class="k">OptiScaler NR (native-DLSS games)</span><span class="v">GPL-3.0 - wilsjo2's OptiScaler-DLSSNR-PreSR-Multipass fork; licence + SHA256SUMS in <code>payload\optiscaler</code>; ships no NVIDIA files</span></div>
+            <div class="spec"><span class="k">ReShade 6.8 (add-on build, 64 + 32-bit)</span><span class="v">BSD 3-Clause - Patrick Mours and contributors, notice and licence in <code>payload</code></span></div>
+            <div class="spec"><span class="k">Media worker (pictures, videos, desktop)</span><span class="v">Apache 2.0 - written for this app, <code>payload\media\dlss5-media.exe</code>; optical flow code from the add-on</span></div>
+            <div class="spec"><span class="k">NVIDIA runtime DLLs</span><span class="v off">Not shipped - imported from your own PC</span></div>
+          </div>
+
+          <div class="about-links">
+            <button class="glass-btn sm" data-link="official">Official download page</button>
+            <button class="ghost sm" id="update-check">Check for updates</button>
+            <button class="ghost sm" data-link="upstream">Add-on source (upstream)</button>
+            <button class="ghost sm" data-link="apache">Apache 2.0 licence</button>
+            <button class="ghost sm" data-link="reshade">ReShade</button>
+            <button class="ghost sm" data-link="reshadeSource">ReShade source</button>
+            <button class="ghost sm" id="open-payload">Open notices</button>
+          </div>
+
+          <p class="hint" id="update-status"></p>
+
+          <div class="section-head tight"><h3>Credit and licence</h3></div>
+          <p>Made by <strong>Revin (revingale32)</strong>. The only official download is the GitHub page above - a copy
+            from anywhere else did not come from him and may not be safe; every release lists its SHA-256. It is free and
+            open source under the Apache License 2.0: anyone may share it or a changed version, as long as the credit and
+            the NOTICE file stay with it and the changes are marked.</p>
+          <p>Not affiliated with, endorsed by or sponsored by NVIDIA. NVIDIA and DLSS are trademarks of NVIDIA Corporation.</p>
+
+          <div class="section-head tight"><h3>Two rules</h3></div>
+          <p><strong>Never bypass anti-cheat.</strong> EasyAntiCheat, BattlEye, Denuvo Anti-Cheat, Ricochet, GameGuard and Vanguard
+            are detected and named, and the risk is spelled out before anything is written. Nothing here disables, patches or
+            hides from any of them.</p>
+          <p><strong>Never destroy a file.</strong> Nothing is overwritten until a byte-for-byte copy exists on disk and verifies
+            by SHA-256. If an install fails halfway, every file goes back; if the process dies mid-write, the next run finds the
+            journal and repairs the folder before doing anything else.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ================================================================ game sheet -->
+  <div class="overlay" id="view-game" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="game-name">
+      <div class="hero empty" id="game-hero">
+        <button class="close" id="back" title="Close" aria-label="Close"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6"/></svg></button>
+      </div>
+      <div class="sheet-body">
+        <div class="head">
+          <div class="cover" id="hero-cover"></div>
+          <div class="who">
+            <h3 id="game-name">—</h3>
+            <p class="meta" id="game-sub"></p>
+            <p class="path" id="game-path"></p>
+          </div>
+        </div>
+
+        <div id="anticheat-banner" class="banner danger" hidden></div>
+        <div id="changed-banner" class="banner warn" hidden></div>
+        <div id="problem-banner" class="banner warn" hidden></div>
+        <div id="note-banner" class="banner note" hidden></div>
+
+        <div class="sheet-grid">
+          <label class="field">
+            <span>Executable</span>
+            <select id="exe-picker"></select>
+          </label>
+          <label class="field">
+            <span>Neural passes</span>
+            <select id="opt-passes">
+              <option value="1" selected>1 - lightest</option>
+              <option value="2">2 - heavier</option>
+              <option value="3">3 - heaviest</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Model</span>
+            <select id="opt-model">
+              <option value="1" selected>1 - cheapest</option>
+              <option value="2">2</option>
+              <option value="3">3 - richest</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Frame generation</span>
+            <select id="opt-fg">
+              <option value="0" selected>Off - lowest latency</option>
+              <option value="1">On</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Multiplier</span>
+            <select id="opt-fgmult">
+              <option value="2" selected>2x</option>
+              <option value="3">3x</option>
+              <option value="4">4x</option>
+            </select>
+          </label>
+        </div>
+        <p class="hint" id="hook-note"></p>
+        <p class="hint">These are the values the game starts with. <strong>Press Home in game</strong> to open ReShade's
+          overlay and change anything live while you play. Frame generation costs latency whatever the multiplier -
+          the step is off versus on, not 2x versus 3x.</p>
+
+        <div class="specs" id="spec-table"></div>
+        <div class="filelist" id="file-list"></div>
+
+        <div class="sheet-actions">
+          <button class="btn-install" id="do-install">Install</button>
+          <button class="btn-restore" id="do-restore">Restore originals</button>
+          <button class="ghost" id="verify-install" title="Check that every file this app installed is still exactly as installed">Verify</button>
+          <button class="ghost" id="open-folder">Open folder</button>
+          <button class="ghost" id="forget-folder" hidden>Forget</button>
+        </div>
+        <pre class="job" id="game-result" hidden></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================ before / after -->
+  <div class="overlay" id="media-compare" hidden>
+    <div class="sheet compare-sheet" role="dialog" aria-modal="true" aria-labelledby="compare-title">
+      <div class="compare-bar">
+        <h3 id="compare-title">—</h3>
+        <div class="seg" id="compare-mode">
+          <button data-mode="wipe" class="is-on">Wipe</button>
+          <button data-mode="side">Side by side</button>
+          <button data-mode="flip">Hold to see original</button>
+        </div>
+        <button class="close" id="compare-close" title="Close" aria-label="Close"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6"/></svg></button>
+      </div>
+      <div class="compare-stage" id="compare-stage">
+        <div class="compare-layer" id="compare-before"></div>
+        <div class="compare-layer" id="compare-after"></div>
+        <div class="compare-line" id="compare-line"></div>
+        <span class="compare-tag left">Original</span>
+        <span class="compare-tag right">DLSS 5</span>
+      </div>
+      <input type="range" id="compare-slider" min="0" max="1000" value="500" aria-label="Wipe position">
+      <div class="compare-foot">
+        <span class="dim" id="compare-meta"></span>
+        <div class="row">
+          <button class="ghost sm" id="compare-play" hidden>Play</button>
+          <button class="ghost sm" id="compare-open">Open result</button>
+          <button class="ghost sm" id="compare-reveal">Show in folder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright 2026 Revin (revingale32) - DLSS 5 AIO Installer, github.com/revingale32/dlss5-aio-installer
+// dlss5-media - Windows version information (what Explorer shows under Properties > Details).
+#include <winver.h>
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     1,1,0,0
+PRODUCTVERSION  1,1,0,0
+FILEFLAGSMASK   0x3fL
+FILEFLAGS       0x0L
+FILEOS          VOS_NT_WINDOWS32
+FILETYPE        VFT_APP
+FILESUBTYPE     VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName",      "Revin (revingale32)"
+            VALUE "FileDescription",  "DLSS 5 AIO Installer media worker (pictures, videos, desktop)"
+            VALUE "FileVersion",      "1.1.0"
+            VALUE "InternalName",     "dlss5-media"
+            VALUE "LegalCopyright",   "Copyright (C) 2026 Revin (revingale32). Apache License 2.0."
+            VALUE "OriginalFilename", "dlss5-media.exe"
+            VALUE "ProductName",      "DLSS 5 AIO Installer"
+            VALUE "ProductVersion",   "1.1.0"
+            VALUE "Comments",         "Official download: github.com/revingale32/dlss5-aio-installer"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

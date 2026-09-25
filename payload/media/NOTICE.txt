@@ -1,0 +1,9 @@
+dlss5-media.exe - the DLSS 5 AIO Installer's media worker (pictures, videos, desktop).
+Copyright 2026 Revin (revingale32). Written for the DLSS 5 AIO Installer by Revin, with Claude.
+Apache License 2.0. Official download: https://github.com/revingale32/dlss5-aio-installer
+
+Includes nvof-motion-provider from kibblerz/DLSS5-Reshade-AIO (Apache 2.0) and
+NVIDIA Optical Flow SDK headers (Copyright (c) 2018-2023 NVIDIA Corporation, MIT).
+
+It loads NVIDIA's nvngx_dlssnr.dll from your own PC at run time; no NVIDIA
+runtime file is shipped with it. Source: media-worker\ in the AIO Installer's source.

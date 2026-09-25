@@ -1,0 +1,27 @@
+OptiScaler Neural Rendering - wilsjo2/OptiScaler-DLSSNR-PreSR-Multipass, release v0.8.8
+=======================================================================================
+Built on OptiScaler (github.com/optiscaler/OptiScaler) and Dagherbou's neural-rendering fork,
+with colour processing from RenoDX. Licensed under the GNU General Public License v3.0 -
+the full text is OPTISCALER-LICENSE.txt beside this file; third-party licences are in Licenses\.
+Source: https://github.com/wilsjo2/OptiScaler-DLSSNR-PreSR-Multipass  (tag v0.8.8, commit 3f34e024)
+
+The DLSS 5 AIO Installer places this program, unmodified, into games that ship native NVIDIA
+ray reconstruction, where the installer's own standalone add-on cannot run. It is a separate
+program from the installer and from the add-on and is not covered by their Apache-2.0 licence.
+
+This folder was taken from the release archive OptiScaler-NR-v0.8.8.zip (the standard build,
+not the rtx40-mfg variant), whose SHA-256 was checked three ways before extraction - the digest
+GitHub publishes for the asset, the author's OptiScaler-NR-v0.8.8-SHA256SUMS.txt, and the
+download itself:
+  f11c52f6ef5c3f201352c03ce5bdbb965f2fea5995f28013a42dfb9dabee3a35
+Every extracted file was then checked against the author's per-file SHA256SUMS.txt (kept here;
+its paths are as laid out in the archive - CREDITS.md and the release notes came from docs\).
+
+Why v0.8.8 over the v0.8.4 this installer first shipped: v0.8.6 fixes shutdown defects behind an
+exit-time GPU hang (nvlddmkm Event 153) and NR teardown during DLL unload; v0.8.7 removes an
+unsafe cross-queue wait on the finished-picture path; v0.8.8 adds optional enlargement modes
+(Transfer=3/4) and leaves the default path bit-for-bit as v0.8.7. All are author prereleases;
+the notes are in release-notes\ and RELEASE-v0.8.8.md.
+
+It ships NO NVIDIA files. The neural runtime nvngx_dlssnr.dll is the user's own and is copied
+beside the proxy at install time from wherever their PC already has it.
