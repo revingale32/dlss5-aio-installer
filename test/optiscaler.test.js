@@ -28,7 +28,7 @@ function scaffold({ rayReconstruction = true, api = 'd3d12', bitness = 64, forei
   fs.writeFileSync(path.join(payload, 'ReShade64.dll'), 'RESHADE PAYLOAD');
   fs.writeFileSync(path.join(payload, 'ReShade32.dll'), 'RESHADE32 PAYLOAD');
   fs.writeFileSync(path.join(payload, 'nvngx.dll'), 'BRIDGE PAYLOAD');
-  fs.writeFileSync(path.join(payload, 'standalone-dlssnr.addon64'), 'ADDON Standalone DLSS-NR + SR 2.2.4-revin4 end');
+  fs.writeFileSync(path.join(payload, 'standalone-dlssnr.addon64'), 'ADDON Standalone DLSS-NR + SR 2.2.4-revin10b end');
   fs.writeFileSync(path.join(payload, 'shaders', 'StandaloneBoundary.fx'), 'fx');
   // the OptiScaler build
   fs.writeFileSync(path.join(payload, 'optiscaler', 'OptiScaler.dll'), 'OPTISCALER PROXY DLL');
@@ -52,7 +52,7 @@ function scaffold({ rayReconstruction = true, api = 'd3d12', bitness = 64, forei
   if (foreignDxgi) fs.writeFileSync(path.join(gameDir, 'dxgi.dll'), 'SOMEBODY ELSES LOADER');
   if (standaloneKit) {
     fs.writeFileSync(path.join(gameDir, 'dxgi.dll'), 'RESHADE PAYLOAD');
-    fs.writeFileSync(path.join(gameDir, 'standalone-dlssnr.addon64'), 'ADDON Standalone DLSS-NR + SR 2.2.4-revin4 end');
+    fs.writeFileSync(path.join(gameDir, 'standalone-dlssnr.addon64'), 'ADDON Standalone DLSS-NR + SR 2.2.4-revin10b end');
     fs.writeFileSync(path.join(gameDir, 'ReShade.ini'), '[Standalone.DLSSNR]\r\nPasses=1\r\n');
   }
 

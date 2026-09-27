@@ -18,7 +18,7 @@ const ADDON = 'standalone-dlssnr.addon64';
 // wildcard ReShade Setup 6.8 writes is collapsed (see ini.js).
 const SEARCH_PATHS = { EffectSearchPaths: '.\\reshade-shaders\\Shaders\\**', TextureSearchPaths: '.\\reshade-shaders\\Textures\\**' };
 const MANIFEST = 'manifest.json';
-const BUILD = '2.2.4-revin4';
+const BUILD = '2.2.4-revin10b';
 
 // ---------------------------------------------------------------- guards
 

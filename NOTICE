@@ -20,7 +20,7 @@ Copyright 2026 kibblerz
 This product includes software developed for the DLSS5 ReShade AIO project:
 https://github.com/kibblerz/DLSS5-Reshade-AIO
 
-Modified build 2.2.4-revin4 (September 2026) by Revin, with Claude. Modified file: addon/src/nr-standalone.cpp.
+Modified build 2.2.4-revin10b (September 2026) by Revin, with Claude. Modified file: addon/src/nr-standalone.cpp.
 See CHANGES-revin2-2026-09-12.md and nr-standalone-all-changes.patch.
 
 Media worker (payload/media/dlss5-media.exe, source in media-worker/), 2026-09-25: written for this

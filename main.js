@@ -63,7 +63,7 @@ function resolveDataRoot() {
 }
 const DATA_ROOT = resolveDataRoot();
 const COVERS_DIR = path.join(DATA_ROOT, 'covers');
-const BUILD = '2.2.4-revin4';
+const BUILD = '2.2.4-revin10b';
 
 const log = activity.create();
 const art = artwork.create({ cacheDir: COVERS_DIR, log: message => log.info(message) });

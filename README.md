@@ -1,6 +1,6 @@
 # DLSS 5 AIO Installer
 
-Installs the **Standalone DLSS-NR + SR** neural rendering build (`2.2.4-revin4`) into your games, and runs DLSS 5 neural rendering on your own pictures, videos and desktop. App version 0.4.0.
+Installs the **Standalone DLSS-NR + SR** neural rendering build (`2.2.4-revin10b`) into your games, and runs DLSS 5 neural rendering on your own pictures, videos and desktop. App version 0.4.1.
 
 **Made by Revin ([revingale32](https://github.com/revingale32)).** The only official download is
 [github.com/revingale32/dlss5-aio-installer](https://github.com/revingale32/dlss5-aio-installer/releases);
@@ -40,10 +40,10 @@ The core is built and tested; the app is built and checked both statically and b
 | `core/media.js` / `core/mediarun.js` — the Media view's settings, job lists and worker runner | done, tested |
 | `media-worker/` — `dlss5-media.exe`: NR on pictures, videos and the live desktop | done, tested on the RTX 5070 Ti (see below) |
 | `main.js` / `preload.js` / `ui/` — the Electron app | done, wiring verified, rendered in both themes |
-| Windows installer | done — one file, `DLSS 5 AIO Installer <version> Setup.exe`, in `dist-installer\`; built for you, hash-verified |
+| Windows installer | done — one file, `DLSS-5-AIO-Installer-<version>-Setup.exe`, in `dist-installer\`; built for you, hash-verified |
 | Hardening (2026-09-19): runtime hash gate, verify, safe restore, release hashes | done, tested — see below |
 
-`npm test` runs 149 tests. They cover the things that would be expensive to get wrong: Windows path
+`npm test` runs 156 tests. They cover the things that would be expensive to get wrong: Windows path
 escapes in `libraryfolders.vdf`, telling a launcher apart from the game, CRLF survival when editing
 someone's ini, a failed install putting every byte back, a kit installed by hand being recognised
 and left alone, and a network failure never being mistaken for "this game has no art".
@@ -246,8 +246,18 @@ per-game profiles and cover art. *Check for updates* on the About page works any
 turns the start-up check on or off.
 
 A release therefore carries two files: the Setup and `latest.yml`, both written to `dist-installer\` by
-the build. Releases are uploaded by hand from the official account — the build never publishes by
-itself (`--publish never`). Copies on 0.3.x have no updater; they need 0.4.0 installed by hand once.
+the build. The build never publishes by itself (`--publish never`). Copies on 0.3.x have no updater;
+they need 0.4.0 installed by hand once.
+
+Releases go out from the official account in two steps. `scripts\release-1-prepare.cmd` publishes
+nothing: it checks that the Setup and `latest.yml` are this version's and belong together (the
+updater refuses a Setup whose SHA-512 differs from `latest.yml`), scans the Setup on VirusTotal (the
+key is saved once with `scripts\virustotal-key.ps1`, encrypted for that Windows account), refuses
+NVIDIA runtime files, keys and personal files, and writes the release notes and the list of changed
+files into `dist-installer\` for review. Only after that review, `scripts\release-2-publish.cmd`
+commits, tags, pushes and creates the release, then checks GitHub's copies against the local
+SHA-256s. It refuses a Setup any engine flagged, a source that changed since the review, and it
+never force-pushes or moves a published tag.
 
 ## Two rules the code enforces, not just documents
 
@@ -335,7 +345,7 @@ installers carrying a miner in September 2026, and NVIDIA's neural runtime refus
 
 ## One file to run, one file to hand out
 
-`dist-installer\DLSS 5 AIO Installer <version> Setup.exe` is the whole product. Run it and it installs
+`dist-installer\DLSS-5-AIO-Installer-<version>-Setup.exe` is the whole product. Run it and it installs
 like any Windows program — per-user, so no admin prompt; pick a folder if you like; Start Menu and
 desktop shortcuts; an entry in Add/Remove Programs with a working uninstaller. The app you then open
 from the Start Menu is the app. The same file is what anyone else gets.
@@ -351,5 +361,5 @@ two-pass uninstaller) and delivers the finished file, hash-verified against the 
 test suite first (a failing test means no build), then builds, then writes the release hashes.
 
 Your NVIDIA runtime DLLs are **not** inside the Setup — same rule as always, they are read from
-your PC. The OptiScaler payload is, which is why the file is a few hundred megabytes.
+your PC. The OptiScaler payload is, which is why the file is over a hundred megabytes.
 

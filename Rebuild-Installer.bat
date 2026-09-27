@@ -26,5 +26,6 @@ if errorlevel 1 (
 node scripts\release-sums.js
 echo.
 echo Done. Hashes are in dist-installer\SHA256SUMS.txt. A release needs the Setup exe AND latest.yml -
-echo the app's updater reads latest.yml. Upload the exe to VirusTotal before publishing.
+echo the app's updater reads latest.yml. Publishing: scripts\release-1-prepare.cmd (checks, VirusTotal,
+echo notes for review - nothing goes public), then scripts\release-2-publish.cmd.
 pause

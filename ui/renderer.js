@@ -435,7 +435,8 @@ function renderSpecs(plan) {
     : plan.route === 'optiscaler' ? 'neural rendering inside the game\'s own DLSS pass; turn DLSS on in game, Insert opens its menu' : null;
   rows.push(specRow('Route', routeLabel, '', routeHint));
   rows.push(specRow('DLSS 5 add-on',
-    plan.alreadyInstalled ? `Installed · build ${plan.installedBuild || 'unknown'}` : `Not installed · build ${plan.build} ready`,
+    plan.alreadyInstalled ? `Installed · build ${plan.installedBuild || 'unknown'}${buildOutdated(plan) ? ` · ${plan.build} available` : ''}`
+      : `Not installed · build ${plan.build} ready`,
     plan.alreadyInstalled ? 'on' : 'off',
     plan.alreadyInstalled
       ? (plan.managed ? `installed ${when(plan.installedAt)} by this app` : 'found on disk - not installed by this app, so no backups yet')
@@ -452,6 +453,11 @@ function renderSpecs(plan) {
       nr && nr.ok === false ? `${gpu.architectureName} - cannot run the neural renderer` : gpu.architectureName || 'generation not recognised'));
   }
   $('#spec-table').replaceChildren(...rows);
+}
+
+// An installed add-on whose embedded build differs from the one this app carries - offer it as an update.
+function buildOutdated(plan) {
+  return Boolean(plan && plan.alreadyInstalled && plan.installedBuild && plan.build && plan.installedBuild !== plan.build);
 }
 
 async function refreshPlan() {
@@ -508,7 +514,8 @@ async function refreshPlan() {
   banner($('#note-banner'), plan.notes.length ? plan.notes.join('\n') : null);
 
   $('#do-install').disabled = !plan.installable;
-  text($('#do-install'), plan.alreadyInstalled ? (plan.managed ? 'Reinstall' : 'Install this build') : 'Install');
+  text($('#do-install'), plan.alreadyInstalled
+    ? (buildOutdated(plan) ? `Update to ${plan.build}` : (plan.managed ? 'Reinstall' : 'Install this build')) : 'Install');
   $('#do-restore').disabled = !plan.managed;
   $('#do-restore').title = plan.alreadyInstalled && !plan.managed ? 'Installed outside this app: there are no backups to restore from.' : '';
 }

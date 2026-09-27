@@ -1,8 +1,8 @@
 {
   "name": "dlss5-aio-installer",
   "productName": "DLSS 5 AIO Installer",
-  "version": "0.4.0",
-  "description": "Installs the Standalone DLSS-NR + SR neural rendering build (2.2.4-revin4) into your games, and runs DLSS 5 neural rendering on your pictures, videos and desktop.",
+  "version": "0.4.1",
+  "description": "Installs the Standalone DLSS-NR + SR neural rendering build (2.2.4-revin10b) into your games, and runs DLSS 5 neural rendering on your pictures, videos and desktop.",
   "main": "main.js",
   "author": {
     "name": "Revin - revingale32",
@@ -25,7 +25,7 @@
   "private": true,
   "devDependencies": {
     "@electron/packager": "^18.3.6",
-    "electron": "^32.0.0",
+    "electron": "^44.4.5",
     "playwright": "^1.47.0"
   },
   "build": {

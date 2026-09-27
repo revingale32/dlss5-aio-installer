@@ -28,7 +28,7 @@ function scaffold({ withRuntime = true, existingIni = null, anticheat = null } =
   fs.writeFileSync(path.join(appRoot, 'payload', 'ReShade32.dll'), 'RESHADE32 PAYLOAD');
   fs.writeFileSync(path.join(appRoot, 'payload', 'nvngx.dll'), 'BRIDGE PAYLOAD');
   // The add-on carries its version in its name string; the fake does too.
-  fs.writeFileSync(path.join(appRoot, 'payload', 'standalone-dlssnr.addon64'), 'ADDON PAYLOAD Standalone DLSS-NR + SR 2.2.4-revin4 end');
+  fs.writeFileSync(path.join(appRoot, 'payload', 'standalone-dlssnr.addon64'), 'ADDON PAYLOAD Standalone DLSS-NR + SR 2.2.4-revin10b end');
   fs.mkdirSync(path.join(appRoot, 'payload', 'relay'));
   fs.writeFileSync(path.join(appRoot, 'payload', 'relay', 'neural-relay.exe'), 'RELAY');
   fs.writeFileSync(path.join(appRoot, 'payload', 'relay', 'neural-relay-launcher.addon32'), 'LAUNCHER');
@@ -243,11 +243,11 @@ test('a kit that is already on disk is reported as installed but not managed', (
       const relayDir = path.join(other.root, 'somewhere', 'relay');
       fs.mkdirSync(relayDir, { recursive: true });
       fs.writeFileSync(path.join(relayDir, 'neural-relay.exe'), 'R');
-      fs.writeFileSync(path.join(relayDir, 'standalone-dlssnr.addon64'), 'Standalone DLSS-NR + SR 2.2.4-revin4');
+      fs.writeFileSync(path.join(relayDir, 'standalone-dlssnr.addon64'), 'Standalone DLSS-NR + SR 2.2.4-revin10b');
       fs.writeFileSync(path.join(other.gameDir, 'neural-relay-launcher.ini'), `[NeuralRelay]\r\nPath=${path.join(relayDir, 'neural-relay.exe')}\r\nFpsCap=auto\r\n`);
       const relay = install.status(other.gameDir);
       assert.deepStrictEqual({ installed: relay.installed, managed: relay.managed, route: relay.route, build: relay.build },
-        { installed: true, managed: false, route: 'relay', build: '2.2.4-revin4' });
+        { installed: true, managed: false, route: 'relay', build: '2.2.4-revin10b' });
     } finally { other.cleanup(); }
   } finally { env.cleanup(); }
 });

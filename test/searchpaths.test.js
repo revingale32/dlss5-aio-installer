@@ -32,7 +32,7 @@ function scaffold({ existingIni = null } = {}) {
   fs.writeFileSync(path.join(appRoot, 'payload', 'ReShade64.dll'), 'RESHADE PAYLOAD');
   fs.writeFileSync(path.join(appRoot, 'payload', 'ReShade32.dll'), 'RESHADE32 PAYLOAD');
   fs.writeFileSync(path.join(appRoot, 'payload', 'nvngx.dll'), 'BRIDGE PAYLOAD');
-  fs.writeFileSync(path.join(appRoot, 'payload', 'standalone-dlssnr.addon64'), 'ADDON PAYLOAD Standalone DLSS-NR + SR 2.2.4-revin4 end');
+  fs.writeFileSync(path.join(appRoot, 'payload', 'standalone-dlssnr.addon64'), 'ADDON PAYLOAD Standalone DLSS-NR + SR 2.2.4-revin10b end');
   fs.writeFileSync(path.join(appRoot, 'payload', 'relay', 'neural-relay.exe'), 'RELAY');
   fs.writeFileSync(path.join(appRoot, 'payload', 'relay', 'neural-relay-launcher.addon32'), 'LAUNCHER');
   fs.writeFileSync(path.join(appRoot, 'payload', 'shaders', 'StandaloneBoundary.fx'), 'fx');
